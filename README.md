@@ -1,62 +1,51 @@
-# SimulaCheck
+# SimulaCheck V2
 
-Dashboard simples, moderno e responsivo para correção automática de simulados.
+Versão melhorada do SimulaCheck, feita para continuar simples e funcionar como site estático na Vercel.
 
-Feito 100% com **HTML5 + CSS3 + JavaScript puro (Vanilla JS)** e **Chart.js** para os gráficos. Sem backend, sem banco de dados, sem login — tudo roda no navegador e os dados ficam salvos no `localStorage`.
+## O que mudou
 
-## Estrutura do projeto
+- Importação de PDF do simulado.
+- Importação de PDF do gabarito.
+- Extração de texto com PDF.js.
+- Parser de gabarito em formatos como `1-A`, `1 A`, `1) A` e sequências `A B C D`.
+- Importação rápida das respostas por texto.
+- Geração automática da grade de questões.
+- Correção automática.
+- Dashboard de acertos, erros e aproveitamento.
+- Desempenho por matéria.
+- Ranking de assuntos com mais erros.
+- Diagnóstico automático.
+- Filtros por status e matéria.
+- Histórico e evolução.
+- Modo claro/escuro.
+- Relatório de impressão.
+- Armazenamento em localStorage.
+- Sem backend, sem login e sem banco.
+
+## Importante sobre PDFs escaneados
+
+Esta versão usa extração de texto do PDF no navegador. PDFs que são apenas imagens/escaneamentos podem não possuir texto selecionável. Nesses casos será necessário adicionar OCR em uma próxima versão.
+
+## Estrutura
 
 ```text
-simulacheck/
-│
-├── index.html          → estrutura de todas as telas (home, formulário, dashboard)
-│
+simulachek/
+├── index.html
 ├── css/
-│   └── style.css        → todo o visual: cores, layout, responsividade, modo claro/escuro
-│
+│   └── style.css
 ├── js/
-│   ├── app.js            → navegação, formulário, filtros, tema, dados de exemplo
-│   ├── dashboard.js       → cálculo da correção e renderização dos gráficos/resultados
-│   └── storage.js         → leitura e escrita no localStorage
-│
+│   └── app.js
 └── README.md
 ```
 
-## Como usar localmente
+## Vercel
 
-Como o projeto não usa build tools nem Node.js, basta abrir o `index.html` diretamente no navegador **ou** rodar um servidor local simples (recomendado, para evitar bloqueios de `file://` em alguns navegadores):
+Este projeto é estático. Basta subir a pasta para o GitHub e importar o repositório na Vercel.
 
-```bash
-# dentro da pasta simulacheck/
-python3 -m http.server 8080
-# depois acesse http://localhost:8080
-```
+## Próxima evolução recomendada
 
-## Fluxo de uso
-
-1. Na tela inicial, clique em **"+ Novo Simulado"** (ou **"Carregar exemplo"** para testar rapidamente com dados fictícios).
-2. Preencha as questões: número, sua resposta, gabarito, matéria e assunto.
-3. Use **"+ Adicionar questão"** para incluir mais linhas.
-4. Clique em **"Corrigir Simulado"**.
-5. O dashboard mostra automaticamente: total de questões, acertos, erros, aproveitamento, gráfico de desempenho geral, desempenho por matéria, assuntos com mais erros e a lista de questões (com filtros).
-6. O simulado fica salvo no **Histórico**, na tela inicial, junto com o gráfico de **evolução do aproveitamento** ao longo dos simulados.
-7. É possível excluir um simulado a qualquer momento (com confirmação) dentro do próprio dashboard.
-
-## Modo claro / escuro
-
-O botão no canto superior direito do cabeçalho (🌙 / ☀️) alterna entre os modos. A preferência é salva no `localStorage` e mantida entre acessos.
-
-## Publicando na Vercel
-
-1. Crie um repositório no GitHub e envie a pasta `simulacheck/` (com `index.html` na raiz do repositório, ou ajuste o "Root Directory" no passo 3).
-2. Acesse [vercel.com](https://vercel.com) e clique em **"Add New" → "Project"**.
-3. Selecione o repositório importado. Como é um projeto estático (sem framework), a Vercel detecta automaticamente — não é necessário configurar comando de build nem output directory.
-4. Clique em **Deploy**. Em poucos segundos o site estará no ar em uma URL `*.vercel.app`.
-
-Alternativamente, também é possível arrastar a pasta do projeto direto na área de upload do painel da Vercel, sem precisar do GitHub.
-
-## Observações técnicas
-
-- Todos os dados (simulados, questões, resultados e histórico) ficam salvos **apenas no navegador do usuário** (`localStorage`), então cada visitante tem seu próprio histórico local — não há sincronização entre dispositivos.
-- O Chart.js é carregado via CDN (`cdnjs`), sem necessidade de instalação.
-- O projeto não possui dependências, `package.json` ou etapa de build — é puramente estático.
+1. OCR para PDFs escaneados.
+2. IA para classificar automaticamente matéria/assunto.
+3. Tela para editar as questões extraídas do PDF.
+4. Importação de folha de respostas por imagem/PDF.
+5. Banco de dados para manter histórico em vários dispositivos.
