@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SimulaCheck — Seu desempenho em um só lugar</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="app-header">
+  <div class="header-inner container">
+    <div class="brand">
+      <span class="brand-logo">📊</span>
+      <div>
+        <h1>SimulaCheck</h1>
+        <p class="subtitle">Seu desempenho em um só lugar.</p>
+      </div>
+    </div>
+    <button id="theme-toggle" class="btn-icon" title="Alternar modo claro/escuro">🌙</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ===================== TELA: HOME ===================== -->
+  <section id="screen-home" class="screen">
+
+    <div class="home-actions">
+      <button id="btn-new-simulado" class="btn btn-primary">+ Novo Simulado</button>
+      <button id="btn-load-example" class="btn btn-secondary">Carregar exemplo</button>
+    </div>
+
+    <!-- Evolução -->
+    <div class="card chart-card">
+      <h2>Sua evolução</h2>
+      <p class="section-desc">Evolução do aproveitamento</p>
+      <div class="chart-wrapper">
+        <canvas id="chart-evolucao"></canvas>
+      </div>
+      <p id="evolucao-empty" class="empty-state">Ainda não há simulados suficientes para mostrar a evolução.</p>
+    </div>
+
+    <!-- Histórico -->
+    <div class="card">
+      <h2>Histórico</h2>
+      <p class="section-desc">Simulados realizados</p>
+      <div id="lista-historico" class="historico-list">
+        <p class="empty-state">Nenhum simulado cadastrado ainda. Clique em "+ Novo Simulado" ou "Carregar exemplo".</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===================== TELA: FORMULÁRIO ===================== -->
+  <section id="screen-form" class="screen hidden">
+    <button class="btn-back" data-target="screen-home">&larr; Voltar</button>
+
+    <div class="card">
+      <h2>Adicionar questões</h2>
+      <div class="form-group">
+        <label for="input-nome-simulado">Nome do simulado</label>
+        <input type="text" id="input-nome-simulado" placeholder="Ex: Simulado ENEM 01">
+      </div>
+
+      <div id="lista-questoes-form" class="questoes-form-list"></div>
+
+      <div class="form-actions">
+        <button id="btn-add-questao" class="btn btn-secondary">+ Adicionar questão</button>
+        <button id="btn-corrigir" class="btn btn-primary">Corrigir Simulado</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TELA: DASHBOARD ===================== -->
+  <section id="screen-dashboard" class="screen hidden">
+    <button class="btn-back" data-target="screen-home">&larr; Voltar</button>
+
+    <div class="dashboard-title-row">
+      <h2 id="dashboard-nome-simulado">Resultado do simulado</h2>
+      <button id="btn-excluir-simulado" class="btn btn-danger">Excluir simulado</button>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="stats-grid">
+      <div class="stat-card stat-total">
+        <span class="stat-label">Total de questões</span>
+        <span class="stat-value" id="stat-total">0</span>
+      </div>
+      <div class="stat-card stat-acertos">
+        <span class="stat-label">Acertos</span>
+        <span class="stat-value" id="stat-acertos">0</span>
+      </div>
+      <div class="stat-card stat-erros">
+        <span class="stat-label">Erros</span>
+        <span class="stat-value" id="stat-erros">0</span>
+      </div>
+      <div class="stat-card stat-aproveitamento">
+        <span class="stat-label">Aproveitamento</span>
+        <span class="stat-value" id="stat-aproveitamento">0%</span>
+      </div>
+    </div>
+
+    <!-- Gráfico geral + Desempenho por matéria -->
+    <div class="two-col-grid">
+      <div class="card chart-card">
+        <h2>Desempenho geral</h2>
+        <div class="chart-wrapper small">
+          <canvas id="chart-desempenho-geral"></canvas>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <h2>Desempenho por matéria</h2>
+        <div class="chart-wrapper small">
+          <canvas id="chart-materias"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista de desempenho por matéria -->
+    <div class="card">
+      <h2>Desempenho por matéria</h2>
+      <div id="lista-materias" class="materias-list"></div>
+    </div>
+
+    <!-- Assuntos com maior dificuldade -->
+    <div class="card">
+      <h2>Assuntos que você mais errou</h2>
+      <div id="lista-assuntos" class="assuntos-list"></div>
+      <p id="assuntos-empty" class="empty-state hidden">Nenhum erro registrado. Mandou muito bem! 🎉</p>
+    </div>
+
+    <!-- Questões -->
+    <div class="card">
+      <div class="questoes-header">
+        <h2>Questões</h2>
+        <div class="filtros">
+          <div class="filtro-group">
+            <button class="filtro-btn active" data-filtro-status="todas">Todas</button>
+            <button class="filtro-btn" data-filtro-status="certas">Acertos</button>
+            <button class="filtro-btn" data-filtro-status="erradas">Erros</button>
+          </div>
+          <div class="filtro-group">
+            <select id="filtro-materia">
+              <option value="todas">Todas as matérias</option>
+            </select>
+            <select id="filtro-assunto">
+              <option value="todas">Todos os assuntos</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="lista-questoes-resultado" class="questoes-resultado-list"></div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p>SimulaCheck — desenvolvido para ajudar você a estudar melhor.</p>
+</footer>
+
+<!-- Template de uma linha de questão do formulário (usado via JS) -->
+<template id="template-questao-form">
+  <div class="questao-form-item card-inline">
+    <button class="btn-remove-questao" title="Remover questão">✕</button>
+    <div class="questao-form-grid">
+      <div class="form-group">
+        <label>Número da questão</label>
+        <input type="text" class="q-numero" placeholder="Ex: 01">
+      </div>
+      <div class="form-group">
+        <label>Sua resposta</label>
+        <select class="q-resposta">
+          <option value="">--</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="E">E</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Gabarito</label>
+        <select class="q-gabarito">
+          <option value="">--</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="E">E</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Matéria</label>
+        <input type="text" class="q-materia" placeholder="Ex: Matemática">
+      </div>
+      <div class="form-group">
+        <label>Assunto</label>
+        <input type="text" class="q-assunto" placeholder="Ex: Função do 2º grau">
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- Chart.js via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+
+<script src="js/storage.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
